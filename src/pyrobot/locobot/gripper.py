@@ -35,6 +35,9 @@ class LoCoBotGripper(Gripper):
         self.pub_gripper_close = rospy.Publisher(
             self.configs.GRIPPER.ROSTOPIC_GRIPPER_CLOSE, Empty, queue_size=1
         )
+        self.pub_gripper_force_close_if_open = rospy.Publisher(
+            self.configs.GRIPPER.ROSTOPIC_GRIPPER_FORCE_CLOSE_IF_OPEN, Empty, queue_size=1
+        )
         self.pub_gripper_open = rospy.Publisher(
             self.configs.GRIPPER.ROSTOPIC_GRIPPER_OPEN, Empty, queue_size=1
         )
@@ -100,6 +103,18 @@ class LoCoBotGripper(Gripper):
         :type wait: bool
         """
         self.pub_gripper_close.publish()
+        if wait:
+            rospy.sleep(self.wait_time)
+
+    def force_close_if_open(self, wait=True):
+        """
+        Commands gripper to close fully
+
+        :param wait: True if blocking call and will return
+                     after target_joint is achieved, False otherwise
+        :type wait: bool
+        """
+        self.pub_gripper_force_close_if_open.publish()
         if wait:
             rospy.sleep(self.wait_time)
 

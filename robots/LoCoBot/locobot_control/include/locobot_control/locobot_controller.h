@@ -105,6 +105,7 @@ class LoCoBotController {
   ros::Subscriber stop_execution_j5_sub_;
   ros::Subscriber gripper_open_sub_;
   ros::Subscriber gripper_close_sub_;
+  ros::Subscriber gripper_force_close_sub_;
   ros::Subscriber set_tilt_sub_;
   ros::Subscriber set_pan_sub_;
 
@@ -168,6 +169,7 @@ class LoCoBotController {
   void stopExecutionJ5Callback(const std_msgs::Empty::ConstPtr &msg);
   void gripperCloseCallback(const std_msgs::Empty::ConstPtr &msg);
   void gripperOpenCallback(const std_msgs::Empty::ConstPtr &msg);
+  void gripperForceCloseCallbackIfOpen(const std_msgs::Empty::ConstPtr &msg);
   void setTiltCallback(const std_msgs::Float64::ConstPtr &msg);
   void setPanCallback(const std_msgs::Float64::ConstPtr &msg);
   void cameraStatePublish(void);

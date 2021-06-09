@@ -14,6 +14,7 @@ from std_msgs.msg import Empty
 
 ROSTOPIC_GRIPPER_OPEN = "/gripper/open"
 ROSTOPIC_GRIPPER_CLOSE = "/gripper/close"
+ROSTOPIC_GRIPPER_FORCE_CLOSE_IF_OPEN = "/gripper/force_close_if_open"
 ROSTOPIC_GRIPPER_STATE = "/gripper/state"
 
 

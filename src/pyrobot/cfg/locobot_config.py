@@ -144,6 +144,8 @@ _GRIPPERC.CLASS = "LoCoBotGripper"
 _GRIPPERC.ROSTOPIC_GRIPPER_OPEN = "/gripper/open"
 # topic name to close gripper
 _GRIPPERC.ROSTOPIC_GRIPPER_CLOSE = "/gripper/close"
+# topic name to force closing the gripper if it is still open
+_GRIPPERC.ROSTOPIC_GRIPPER_FORCE_CLOSE_IF_OPEN = "/gripper/force_close_if_open"
 # joint names of the gripper joints
 _GRIPPERC.ROSTOPIC_GRIPPER_STATE = "/gripper/state"
 

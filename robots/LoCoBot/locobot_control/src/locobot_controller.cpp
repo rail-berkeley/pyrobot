@@ -537,6 +537,8 @@ void LoCoBotController::initSubscriber() {
   if (use_group_["gripper"]) {
     gripper_close_sub_ = node_handle_.subscribe("gripper/close", 10,
                                                 &LoCoBotController::gripperCloseCallback, this);
+    gripper_force_close_sub_ = node_handle_.subscribe("gripper/force_close_if_open", 10,
+                                                &LoCoBotController::gripperForceCloseCallbackIfOpen, this);
     gripper_open_sub_ = node_handle_.subscribe("gripper/open", 10,
                                                &LoCoBotController::gripperOpenCallback, this);
   }
@@ -1154,6 +1156,24 @@ void LoCoBotController::stopExecutionJ5Callback(const std_msgs::Empty::ConstPtr 
     }
   } else {
     ROS_ERROR("Arm is not initialized, make sure use_arm:=True and arm motors are connected");
+  }
+}
+
+void LoCoBotController::gripperForceCloseCallbackIfOpen(const std_msgs::Empty::ConstPtr &msg) {
+  if (use_group_["gripper"]) {
+    int gripper_motor_id = dynamixel_name_2ids_[group_motors_["gripper"][0]];
+    int gripper_state_id = motor_id_2state_list_id_[gripper_motor_id];
+    int32_t position = (int32_t) dynamixel_state_list_.dynamixel_state[gripper_state_id].present_position;
+    if (position >= GRIPPER_CLOSE_VALUE) {
+      ROS_INFO("Force gripper close - closing gripper.");
+      prev_gripper_load_ = 0;
+      prev_gripper_state_ = -1;
+      gripper_state_ = 1;
+      gripper_cmd_ = 1;
+    }
+    else {
+      ROS_INFO("Force gripper close - gripper already closed.");
+    }
   }
 }
 
