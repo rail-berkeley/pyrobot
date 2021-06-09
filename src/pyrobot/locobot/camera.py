@@ -438,7 +438,7 @@ class DepthImgProcessor:
         # pcd in camera from depth
         depth_im = depth_im[0 :: self.subsample_pixs, 0 :: self.subsample_pixs]
         rgb_im = rgb_im[0 :: self.subsample_pixs, 0 :: self.subsample_pixs]
-        depth = depth_im.reshape(-1) / float(self.cfg_data["DepthMapFactor"])
+        depth = depth_im.reshape(-1)
         rgb = None
         if rgb_im is not None:
             rgb = rgb_im.reshape(-1, 3)
