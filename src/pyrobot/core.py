@@ -394,7 +394,7 @@ class Camera(object):
         self.camera_img_lock.acquire()
         depth = copy.deepcopy(self.depth_img)
         self.camera_img_lock.release()
-        depth = depth / self.configs.CAMERA.DEPTH_MAP_FACTOR
+        depth = depth.astype(np.float32) / 1000
         return depth
 
     def get_rgb_depth(self):
@@ -409,8 +409,8 @@ class Camera(object):
         self.camera_img_lock.acquire()
         rgb = copy.deepcopy(self.rgb_img)
         depth = copy.deepcopy(self.depth_img)
-        depth = depth.astype(np.float32) / 1000
         self.camera_img_lock.release()
+        depth = depth.astype(np.float32) / 1000
         return rgb, depth
 
     def get_intrinsics(self):
