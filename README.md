@@ -22,13 +22,13 @@
 
 ### Installing both PyRobot and LoCoBot dependencies
 
-* Install **Ubuntu 16.04**
+* Install **Ubuntu 18.04**
 
 * Download the installation script
   ```bash
   sudo apt update
   sudo apt-get install curl
-  curl 'https://raw.githubusercontent.com/facebookresearch/pyrobot/master/robots/LoCoBot/install/locobot_install_all.sh' > locobot_install_all.sh
+  curl 'https://raw.githubusercontent.com/rail-berkeley/pyrobot/master/robots/LoCoBot/install/locobot_install_all.sh' > locobot_install_all.sh
   ```
 
 * Run the script to install everything (ROS, realsense driver, etc.). 
@@ -56,7 +56,7 @@ If you want to use simulated LoCoBot in Gazebo only, please run the following co
 
 ### Installing just PyRobot
 
-* Install **Ubuntu 16.04**
+* Install **Ubuntu 18.04**
 
 * Install [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
 
@@ -66,7 +66,7 @@ If you want to use simulated LoCoBot in Gazebo only, please run the following co
   cd ~
   mkdir -p low_cost_ws/src
   cd ~/low_cost_ws/src
-  git clone --recurse-submodules https://github.com/facebookresearch/pyrobot.git
+  git clone --recurse-submodules https://github.com/rail-berkeley/pyrobot.git
   cd pyrobot/
   chmod +x install_pyrobot.sh
   ./install_pyrobot.sh -p 2  #For python3, modify the argumet to -p 3 

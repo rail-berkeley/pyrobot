@@ -182,10 +182,8 @@ if [ $INSTALL_TYPE == "full" ]; then
 
 	# STEP 4A: Install librealsense
 	if [ $(dpkg-query -W -f='${Status}' librealsense2 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-		sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
 		sudo apt-get update
-		version="2.33.1-0~realsense0.2140"
+		version="2.33.1-0~realsense0.2141"
 		sudo apt-get -y install librealsense2-udev-rules=${version}
 		sudo apt-get -y install librealsense2-dkms=1.3.11-0ubuntu1
 		sudo apt-get -y install librealsense2=${version}
@@ -236,7 +234,7 @@ if [ ! -d "$LOCOBOT_FOLDER/src" ]; then
 fi
 if [ ! -d "$LOCOBOT_FOLDER/src/pyrobot" ]; then
 	cd $LOCOBOT_FOLDER/src
-	git clone https://github.com/facebookresearch/pyrobot.git
+	git clone https://github.com/rail-berkeley/pyrobot.git
 	cd pyrobot
 	git checkout master
 	git submodule update --init --recursive
