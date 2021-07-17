@@ -112,43 +112,22 @@ sudo pip install --upgrade pip==20.3
 
 # STEP 2 - Install ROS 
 
-if [ $ROS_NAME == "kinetic" ]; then
-
-	if [ $(dpkg-query -W -f='${Status}' ros-kinetic-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then 
-		echo "Installing ROS..."
-		sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros1-latest.list'
-		sudo -E apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-		sudo apt-get update
-		sudo apt-get -y install ros-kinetic-desktop-full
-		if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-		    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-		fi
-		sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-		sudo apt -y install python-rosdep
-		sudo rosdep init
-		rosdep update
-		echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-	else
-		echo "ros-kinetic-desktop-full is already installed";
-	fi
+if [ $(dpkg-query -W -f='${Status}' ros-${ROS_NAME}-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+  echo "Installing ROS..."
+  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu '$(lsb_release -cs)' main" > /etc/apt/sources.list.d/ros1-latest.list'
+  sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+  sudo apt-get update
+  sudo apt-get -y install ros-${ROS_NAME}-desktop-full
+  if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
+  fi
+  sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+  sudo apt -y install python-rosdep
+  sudo rosdep init
+  rosdep update
+  echo "source /opt/ros/${ROS_NAME}/setup.bash" >> ~/.bashrc
 else
-	if [ $(dpkg-query -W -f='${Status}' ros-melodic-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then 
-		echo "Installing ROS..."
-		sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros1-latest.list'
-		sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-		sudo apt-get update
-		sudo apt-get -y install ros-melodic-desktop-full
-		if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-			sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-		fi
-		sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-		sudo apt -y install python-rosdep
-		sudo rosdep init
-		rosdep update
-		echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-	else
-		echo "ros-melodic-desktop-full is already installed";
-	fi
+  echo "ros-${ROS_NAME}-desktop-full is already installed";
 fi
 
 source /opt/ros/$ROS_NAME/setup.bash
@@ -182,6 +161,8 @@ if [ $INSTALL_TYPE == "full" ]; then
 
 	# STEP 4A: Install librealsense
 	if [ $(dpkg-query -W -f='${Status}' librealsense2 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+    sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 		sudo apt-get update
 		version="2.33.1-0~realsense0.2141"
 		sudo apt-get -y install librealsense2-udev-rules=${version}
